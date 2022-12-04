@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int info;
+    struct node *next;
+};
+
+struct node *getnode()
+{
+    struct node *p;
+    p = (struct node *)malloc(sizeof(struct node));
+    return p;
+}
+void insbeg(struct node **start, int x)
+{
+    struct node *p;
+    p = getnode();
+    p->info = x;
+    p->next = (*start);
+    (*start) = p;
+}
+
+void traverse(struct node **start)
+{
+    struct node *p;
+    p = (*start);
+    while (p != NULL)
+    {
+        printf("%d ", p->info);
+        p = p->next;
+    }
+    printf("\n");
+}
+
+int reverse(struct node **start1)
+{
+    struct node *p, *c, *n;
+    p = NULL;
+    c = (*start1);
+    n = c->next;
+    while (c != NULL)
+    {
+        c->next = p;
+        p = c;
+        c = n;
+        if (n != NULL)
+        {
+            n = n->next;
+        }
+    }
+    (*start1) = p;
+}
+
+struct node *addof2no(struct node **start1, struct node **start2)
+{
+    reverse(&(*start1));
+    reverse(&(*start2));
+    struct node *p, *q, *start;
+    p = (*start1);
+    q = (*start2);
+    start = NULL;
+    int total, borrow = 10;
+    while (p != NULL && q != NULL)
+    {
+        if ((p->info) < (q->info))
+        {
+            total = (p->info + borrow) - (q->info);
+            insbeg(&start, total);
+            p = p->next;
+            p->info = p->info - 1;
+            q = q->next;
+        }
+        else
+        {
+            total = (p->info) - (q->info);
+            insbeg(&start, total);
+            p = p->next;
+            q = q->next;
+        }
+    }
+    while (p != NULL)
+    {
+
+        total = p->info;
+        insbeg(&start, total);
+        p = p->next;
+    }
+    return start;
+}
+
+int main()
+{
+    struct node *start1 = NULL, *start = NULL;
+    insbeg(&start1, 5);
+    insbeg(&start1, 2);
+    insbeg(&start1, 1);
+    insbeg(&start1, 1);
+
+    printf("The 1st linked list is: ");
+    traverse(&start1);
+    struct node *start2 = NULL;
+    insbeg(&start2, 0);
+    insbeg(&start2, 7);
+    printf("The 2nd linked list is: ");
+    traverse(&start2);
+    printf("subtraction of both linked list: ");
+    start = addof2no(&start1, &start2);
+    traverse(&start);
+    return 0;
+}
