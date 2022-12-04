@@ -1,0 +1,252 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+   int info;
+   struct node *next;
+   struct node *pre;
+};
+
+struct node *getnode()
+{
+   struct node *p;
+   p = (struct node*)malloc(sizeof(struct node));
+   return p;
+}
+
+void insbeg(struct node **dstart, int x)
+{
+   struct node *p;
+   p = getnode();
+   p->info = x;
+   p->pre=NULL;
+   p->next=(*dstart);
+   if ((*dstart)!=NULL)
+   {
+       (*dstart)->pre=p;
+   }
+   (*dstart)=p;
+}
+
+void insend(struct node **dstart,int x)
+{
+    struct node *p,*q;
+    p=(*dstart);
+    q=getnode();
+    q->info=x;
+    q->next=NULL;
+    if((*dstart)!=NULL)
+    {
+        while(p->next!=NULL)
+        {
+            p=p->next;
+        }
+        p->next=q;
+        q->pre=p;
+
+    }
+    else
+        {
+        q->pre=NULL;
+        (*dstart)=p;
+    }
+
+}
+
+void insaft(struct node **dstart,struct node *p,int x)
+{
+    if((*dstart==NULL))
+    {
+        printf("void insertion");
+        exit;
+    }
+
+    struct node *q,*r;
+    q=getnode();
+    q->info=x;
+    r=p->next;
+    p->next=q;
+    q->pre=p;
+    q->next=r;
+    if(r!=NULL)
+    {
+        r->pre=q;
+    }
+
+
+}
+
+void insbef(struct node **dstart,struct node *p,int x)
+{
+    if(p==NULL)
+    {
+        insbeg(&(*dstart),x);
+    }
+    else
+    {
+        struct node *q,*r;
+        q=getnode();
+        q->info=x;
+        if(p->pre==NULL)
+        {
+            q->pre=NULL;
+            q->next=p;
+            p->pre=q;
+            (*dstart)=q;
+        }
+        else{
+        r=p->pre;
+        r->next=q;
+        q->pre=r;
+        q->next=p;
+        p->pre=q;
+    }
+    }
+}
+
+int delbeg(struct node **dstart)
+{
+
+    struct node *p;
+    p=(*dstart);
+    if(p==NULL)
+    {
+        printf("void deletion");
+    }
+    else
+    {
+    int x;
+    x=p->info;
+    (*dstart)=p->next;
+    free(p);
+    return x;
+    }
+}
+
+int delend(struct node **dstart)
+{
+    struct node *p,*q;
+    p=(*dstart);
+    if(p==NULL)
+    {
+        printf("void deletion");
+    }
+    else
+    {
+    while(p->next!=NULL)
+    {
+        p=p->next;
+    }
+    int x;
+    x=p->info;
+    q=p->pre;
+    q->next=NULL;
+    free(p);
+    return x;
+    }
+
+
+}
+
+int delaft(struct node **dstart,struct node *p)
+{
+    if(p->next==NULL || p==NULL)
+    {
+        printf("void deletion\n");
+        return -1;
+    }
+    else{
+    struct node *q;
+    q=p->next;
+    int x=q->info;
+    if(q->next==NULL)
+    {
+        p->next=NULL;
+    }
+    else{
+           struct node *r;
+           r=q->next;
+           p->next=r;
+           r->pre=p;
+        }
+    free(q);
+    return x;
+    }
+}
+
+int delbef(struct node **dstart,struct node *p)
+{
+    struct node *q,*r;
+    if(p->pre==NULL || p==NULL)
+    {
+        printf("void deletion\n");
+        return -1;
+    }
+    else
+    {
+        q=p->pre;
+        int x=q->info;
+        if(q==(*dstart))
+        {
+            p->pre=NULL;
+            (*dstart)=p;
+        }
+        else{
+                r=q->pre;
+        r->next=p;
+        p->pre=r;
+        free(q);
+        return x;
+        }
+    }
+
+}
+
+void traverse(struct node **dstart)
+{
+   struct node *p;
+   p = (*dstart);
+
+   while (p != NULL)
+   {
+      printf("%d ", p->info);
+      p = p->next;
+   }
+   printf("\n");
+}
+
+int main()
+{
+   struct node *dstart,*p;
+   dstart=NULL;
+
+   insbeg(&dstart, 5);
+   insbeg(&dstart, 2);
+   insbeg(&dstart, 1);
+   insbeg(&dstart, 6);
+   insbeg(&dstart, 7);
+
+   printf("Doubly linked list is: ");
+   traverse(&dstart);
+   
+   p=dstart;
+   int d;
+   printf("Enter the position: ");
+   scanf("%d",&d);
+   if(d==0)
+   {
+      printf("void deletion\n");
+   }
+
+   for(int i=1;i<d;i++)
+   {
+       p=p->next;
+   }
+
+   delaft(&dstart,p);
+
+   printf("Final linked list: ");
+   traverse(&dstart);
+   return 0;
+}
