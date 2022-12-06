@@ -1,0 +1,162 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+   int info;
+   struct node *next;
+};
+
+struct node *getnode()
+{
+   struct node *p;
+   p = (struct node*)malloc(sizeof(struct node));
+   return p;
+}
+void insbeg(struct node **start, char x)
+{
+   struct node *p;
+   p = getnode();
+   p->info = x;
+   p->next = (*start);
+   (*start) = p;
+}
+
+void insend(struct node **start, char x)
+{
+   struct node *q;
+   q = *start;
+   while (q->next != NULL)
+   {
+      q = q->next;
+   }
+   struct node *p;
+   p = getnode();
+   p->info = x;
+   p->next = NULL;
+   q->next = p;
+}
+void traverse(struct node *start)
+{
+   struct node *p;
+   p = start;
+   while (p != NULL)
+   {
+      printf("%c ", p->info);
+      p = p->next;
+   }
+   printf("\n");
+}
+void insaft(struct node **q, int x)
+{
+   struct node *r;
+   struct node *p;
+   r = (*q)->next;
+   p = getnode();
+   p->info = x;
+   p->next = r;
+   (*q)->next = p;
+}
+int delbeg(struct node **start)
+{
+    struct node *p;
+    if ((*start) == NULL)
+   {
+      printf("Void deleation\n");
+      return -1;
+   }
+    p=*start;
+    *start=(*start)->next;
+    int x=p->info;
+    free(p);
+    return x;
+
+}
+int delaft(struct node *q)
+{
+    struct node *p;
+    if(p==NULL|| p->next==NULL)
+    {
+        printf("void deletion");
+        exit(1);
+
+    }
+
+    struct node *r;
+    q=p->next;
+    r=q->next;
+    p->next=r;
+    int x=q->info;
+    free(q);
+    return x;
+
+}
+int delend(struct node *start)
+{
+    struct node*p,*q;
+    p=start;
+    q=NULL;
+    while(p->next!=NULL)
+    {
+
+        q=p;
+        p=p->next;
+    }
+    q->next=NULL;
+    int x=p->info;
+    free(p);
+    return x;
+
+}
+ void enqueue(struct node **front,struct node **rear,char x)
+ {
+     if((*rear)==NULL)
+     {
+         insbeg(&(*rear),x);
+         (*front)=(*rear);
+     }
+     else{
+        insaft(&(*rear),x);
+        (*rear)=(*rear)->next;
+     }
+
+ }
+
+ int dequeue(struct node **front,struct node **rear)
+ {
+     char x;
+     if(*front==NULL)
+     {
+         printf("void deletion");
+         exit;
+     }
+     else{
+        x=delbeg(&(*front));
+        if(*front==NULL)
+           *rear=NULL;
+        return x;
+     }
+ }
+
+
+int main()
+{
+   struct node *front,*rear;
+   front = NULL;
+   rear = NULL;
+   enqueue(&front,&rear,'A');
+   enqueue(&front,&rear, 'B');
+   enqueue(&front,&rear, 'C');
+   enqueue(&front,&rear, 'D');
+   enqueue(&front,&rear, 'E');
+   traverse(front);
+
+   char x;
+   x=dequeue(&front,&rear);
+   printf("deleted element is %c",x);
+
+   x=dequeue(&front,&rear);
+   printf("\ndeleted element is %c",x);
+
+   return 0;
+}
