@@ -1,0 +1,155 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+   int info;
+   struct node *next;
+};
+
+struct node *getnode()
+{
+   struct node *p;
+   p = (struct node *)malloc(sizeof(struct node));
+   return p;
+}
+void insbeg(struct node **start, int x)
+{
+   struct node *p;
+   p = getnode();
+   p->info = x;
+   p->next = *start;
+   *start = p;
+}
+
+void insend(struct node **start, int x)
+{
+   struct node *q;
+   q = *start;
+   while (q->next != NULL)
+   {
+      q = q->next;
+   }
+   struct node *p;
+   p = getnode();
+   p->info = x;
+   p->next = NULL;
+   q->next = p;
+}
+void insaft(struct node *q, int x)
+{
+   struct node *r;
+   struct node *p;
+   r = q->next;
+   p = getnode();
+   p->info = x;
+   p->next = r;
+   q->next = p;
+}
+int delbeg(struct node **start)
+{
+   if ((*start) == NULL)
+   {
+      printf("void deletion");
+      exit(1);
+   }
+   struct node *p;
+   p = (*start);
+   (*start) = (*start)->next;
+   int x = p->info;
+   free(p);
+   return x;
+}
+int delaft(struct node **p)
+{
+   struct node *q, *r;
+   if ((*p) == NULL || (*p)->next == NULL)
+   {
+      printf("void deletion");
+      return -1;
+   }
+   q = (*p)->next;
+   int x = q->info;
+   r = q->next;
+   (*p)->next = r;
+   free(q);
+   return x;
+}
+void traverse(struct node **start)
+{
+   struct node *p;
+   p = (*start);
+   while (p != NULL)
+   {
+      printf("%d ", p->info);
+      p = p->next;
+   }
+   printf("\n");
+}
+int countingnodes(struct node *start)
+{
+    struct node *p;
+    p=start;
+    int count=0;
+    while(p!=NULL)
+    {
+        p=p->next;
+        count++;
+    }
+    return count;
+
+}
+void del_kth_node(struct node **start,int n)
+{
+   struct node *p, *q;
+   p =(*start);
+   q = (*start);
+   if (n>countingnodes(*start))
+   {
+       printf("void input");
+       exit;
+   }
+   else
+   {
+   for(int i=0;i<n;i++)
+   {
+       q=q->next;
+   }
+   }
+   if(q==NULL)
+   {
+       printf("%d",p->info);
+   }
+   else
+   {
+   while(q->next!=NULL)
+   {
+       p=p->next;
+       q=q->next;
+
+   }
+   printf("%d",(p->next)->info);
+   }
+
+
+}
+
+
+int main()
+{
+   struct node *start;
+   start = NULL;
+   insbeg(&start, 100);
+   insbeg(&start, 200);
+   insbeg(&start, 300);
+   insbeg(&start, 400);
+   insbeg(&start, 500);
+
+   printf("Linked List before deletion: ");
+   traverse(&start);
+   int n;
+   scanf("%d",&n);
+   printf("Info at nth node: ");
+   del_kth_node(&start,n);
+   return 0;
+}
