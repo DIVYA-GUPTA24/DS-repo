@@ -23,17 +23,23 @@ void insbeg(struct node **start, int x)
 
 void insend(struct node **start, int x)
 {
-   struct node *q;
-   q = *start;
-   while (q->next != NULL)
-   {
-      q = q->next;
-   }
-   struct node *p;
-   p = getnode();
-   p->info = x;
-   p->next = NULL;
-   q->next = p;
+   struct node *q, *p;
+    q = *start;
+    p = getnode();
+    p->info = x;
+    p->next = NULL;
+    if (q == NULL)
+    {
+        (*start) = p;
+    }
+    else
+    {
+        while (q->next != NULL)
+        {
+            q = q->next;
+        }
+        q->next = p;
+    }
 }
 void traverse(struct node *start)
 {
