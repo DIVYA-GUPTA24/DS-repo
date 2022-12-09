@@ -63,7 +63,7 @@ int middleelement(struct node **start)
 {
     struct node *t,*r;
     t=(*start);
-    r=(*start);
+    r=(*start)->next;
     while(r!=NULL && r->next!=NULL){
         t=t->next;
         r=r->next;
