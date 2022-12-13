@@ -18,47 +18,6 @@ struct node *makenode(char x)
    return p;
 }
 
-int preordertraversal(struct node *t)
-{
-    int count=0;
-     while(t!=NULL)
-     {
-         count++;
-    if(t!=NULL)
-    {
-
-        printf("%c ",t->data);
-        preordertraversal(t->left);
-        preordertraversal(t->right);
-    }
-    return count;
-    }
-}
-
-void inordertraversal (struct node *t)
-{
-
-    if(t!=NULL)
-    {
-
-        inordertraversal(t->left);
-        printf("%c ",t->data);
-        inordertraversal(t->right);
-    }
-}
-
-void postordertraversal(struct node *t)
-{
-
-    if(t!=NULL)
-    {
-        postordertraversal(t->left);
-        postordertraversal(t->right);
-        printf("%c ",t->data);
-
-    }
-}
-
 int max(int x,int y)
 {
     if(x>y)
