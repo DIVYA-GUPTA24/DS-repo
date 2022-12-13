@@ -18,6 +18,33 @@ struct node *makenode(int x)
    return p;
 }
 
+void CreateTree(struct node **t)
+{
+    struct node *p;
+    int choice,x;
+    printf("whether the left of %d exists?(1/0)",(*t)->data);
+    scanf("%d",&choice);
+    if(choice==1)
+    {
+        printf("the data at left node",(*t)->left);
+        scanf("%d",&x);
+        p=makenode(x);
+        (*t)->left=p;
+        CreateTree(&p);
+    }
+
+    printf("whether the right of %d exists?(1/0)",(*t)->data);
+    scanf("%d",&choice);
+    if(choice==1)
+    {
+        printf("the data at right node",(*t)->right);
+        scanf("%d",&x);
+        p=makenode(x);
+        (*t)->right=p;
+        CreateTree(&p);
+    }
+
+}
 
 int preordertraversal(struct node *t)
 {
@@ -54,33 +81,7 @@ void postordertraversal(struct node *t)
     }
 }
 
-void CreateTree(struct node **t)
-{
-    struct node *p;
-    int choice,x;
-    printf("whether the left of %d exists?",(*t)->data);
-    scanf("%d",&choice);
-    if(choice==1)
-    {
-        printf("the data at left node",(*t)->left);
-        scanf("%d",&x);
-        p=makenode(x);
-        (*t)->left=p;
-        CreateTree(&p);
-    }
 
-    printf("whether the right of %d exists?",(*t)->data);
-    scanf("%d",&choice);
-    if(choice==1)
-    {
-        printf("the data at right node",(*t)->right);
-        scanf("%d",&x);
-        p=makenode(x);
-        (*t)->right=p;
-        CreateTree(&p);
-    }
-
-}
 int main()
 {
 
