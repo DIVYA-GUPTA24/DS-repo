@@ -20,7 +20,7 @@ int main()
         adjlist[a].push_back({b,w});
         adjlist[b].push_back({a,w});
     }
-    for(int i=0;i<=V;i++)
+    for(int i=0;i<V;i++)
     {
         cout<<i<<": ";
         for(int j=0;j<adjlist[i].size();j++)
